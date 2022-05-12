@@ -12,7 +12,7 @@ dependencies:
   get:
     git:
       url: https://github.com/sumitsharansatsangi/getx.git
-      ref: 4.6.1
+      ref: be8f65e9eeaa91bdfa681841ec61df28fb6c4ddf
   path_provider: ^2.0.1
   #platform_info: ^3.0.0-nullsafety.1
 
