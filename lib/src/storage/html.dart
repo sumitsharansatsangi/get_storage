@@ -16,31 +16,40 @@ class StorageImpl {
 
   void clear() {
     localStorage.remove(fileName);
-    subject.value.clear();
+    if(subject.value != null){
+    subject.value!.clear();
 
     subject
-      ..value.clear()
+      ..value!.clear()
       ..changeValue("", null);
+    }
   }
 
   Future<bool> _exists() async {
     return localStorage.containsKey(fileName);
   }
 
-  Future<void> flush() {
-    return _writeToStorage(subject.value);
+  Future<void> flush() async{
+    if(subject.value != null)
+    return await _writeToStorage(subject.value!);
   }
 
   T? read<T>(String key) {
-    return subject.value[key] as T?;
+    if(subject.value != null)
+    return subject.value![key] as T?;
+    else return null;
   }
 
-  T getKeys<T>() {
-    return subject.value.keys as T;
+  T? getKeys<T>() {
+    if(subject.value != null)
+    return subject.value!.keys as T;
+    else return null;
   }
 
-  T getValues<T>() {
-    return subject.value.values as T;
+  T? getValues<T>() {
+    if(subject.value != null)
+    return subject.value!.values as T;
+    else return null;
   }
 
   Future<void> init([Map<String, dynamic>? initialData]) async {
@@ -48,21 +57,24 @@ class StorageImpl {
     if (await _exists()) {
       await _readFromStorage();
     } else {
-      await _writeToStorage(subject.value);
+      if(subject.value != null)
+      await _writeToStorage(subject.value!);
     }
     return;
   }
 
   void remove(String key) {
+    if (subject.value != null)
     subject
-      ..value.remove(key)
+      ..value!.remove(key)
       ..changeValue(key, null);
     //  return _writeToStorage(subject.value);
   }
 
   void write(String key, dynamic value) {
+    if(subject.value != null)
     subject
-      ..value[key] = value
+      ..value![key] = value
       ..changeValue(key, value);
     //return _writeToStorage(subject.value);
   }

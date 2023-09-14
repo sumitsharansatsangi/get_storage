@@ -20,8 +20,10 @@ class StorageImpl {
   RandomAccessFile? _randomAccessfile;
 
   void clear() async {
+    if(subject
+      .value != null)
     subject
-      ..value.clear()
+      ..value!.clear()
       ..changeValue("", null);
   }
 
@@ -54,15 +56,21 @@ class StorageImpl {
   }
 
   T? read<T>(String key) {
-    return subject.value[key] as T?;
+    if(subject.value != null)
+    return subject.value![key] as T?;
+    else return null;
   }
 
-  T getKeys<T>() {
-    return subject.value.keys as T;
+  T? getKeys<T>() {
+    if(subject.value != null)
+    return subject.value!.keys as T?;
+    else return null;
   }
 
-  T getValues<T>() {
-    return subject.value.values as T;
+  T? getValues<T>() {
+    if(subject.value != null)
+    return subject.value!.values as T;
+    else return null;
   }
 
   Future<void> init([Map<String, dynamic>? initialData]) async {
@@ -73,14 +81,16 @@ class StorageImpl {
   }
 
   void remove(String key) {
+    if(subject.value != null)
     subject
-      ..value.remove(key)
+      ..value!.remove(key)
       ..changeValue(key, null);
   }
 
   void write(String key, dynamic value) {
+    if(subject.value != null)
     subject
-      ..value[key] = value
+      ..value![key] = value
       ..changeValue(key, value);
   }
 
