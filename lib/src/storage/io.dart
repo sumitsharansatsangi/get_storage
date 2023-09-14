@@ -2,9 +2,10 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
+
 import 'package:get/get.dart';
-import 'package:get/get_core/get_core.dart';
 import 'package:path_provider/path_provider.dart';
+
 import '../value.dart';
 
 class StorageImpl {
@@ -20,13 +21,13 @@ class StorageImpl {
 
   void clear() async {
     subject
-      ..value!.clear()
+      ..value.clear()
       ..changeValue("", null);
   }
 
   Future<void> deleteBox() async {
-    final box = await _fileDb(false);
-    final backup = await _fileDb(true);
+    final box = await _fileDb(isBackup: false);
+    final backup = await _fileDb(isBackup: true);
     await Future.wait([box.delete(), backup.delete()]);
   }
 
@@ -53,15 +54,15 @@ class StorageImpl {
   }
 
   T? read<T>(String key) {
-    return subject.value![key] as T?;
+    return subject.value[key] as T?;
   }
 
   T getKeys<T>() {
-    return subject.value!.keys as T;
+    return subject.value.keys as T;
   }
 
   T getValues<T>() {
-    return subject.value!.values as T;
+    return subject.value.values as T;
   }
 
   Future<void> init([Map<String, dynamic>? initialData]) async {
@@ -73,13 +74,13 @@ class StorageImpl {
 
   void remove(String key) {
     subject
-      ..value!.remove(key)
+      ..value.remove(key)
       ..changeValue(key, null);
   }
 
   void write(String key, dynamic value) {
     subject
-      ..value![key] = value
+      ..value[key] = value
       ..changeValue(key, value);
   }
 
@@ -101,7 +102,7 @@ class StorageImpl {
         subject.value = {};
       } else {
         try {
-          subject.value = json.decode(content) as Map<String, dynamic>?;
+          subject.value = (json.decode(content) as Map<String, dynamic>?) ?? {};
         } catch (e) {
           Get.log('Can not recover Corrupted box', isError: true);
           subject.value = {};
@@ -120,14 +121,14 @@ class StorageImpl {
   }
 
   Future<File> _getFile(bool isBackup) async {
-    final fileDb = await _fileDb(isBackup);
+    final fileDb = await _fileDb(isBackup: isBackup);
     if (!fileDb.existsSync()) {
       fileDb.createSync(recursive: true);
     }
     return fileDb;
   }
 
-  Future<File> _fileDb(bool isBackup) async {
+  Future<File> _fileDb({required bool isBackup}) async {
     final dir = await _getImplicitDir();
     final _path = await _getPath(isBackup, path ?? dir.path);
     final _file = File(_path);
