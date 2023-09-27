@@ -67,15 +67,20 @@ packages:
     description: flutter
     source: sdk
     version: "0.0.0"
+  flutter_web_plugins:
+    dependency: transitive
+    description: flutter
+    source: sdk
+    version: "0.0.0"
   get:
     dependency: "direct main"
     description:
       path: "."
       ref: HEAD
-      resolved-ref: fb7e1b030c5048f8e3fb29bdca7641319d278431
-      url: "https://github.com/kumsumit/get.git"
+      resolved-ref: f41fc874ab477206b9e56125e38a23e380463571
+      url: "https://github.com/jonataslaw/getx.git"
     source: git
-    version: "4.6.6"
+    version: "5.0.0-release-candidate-5"
   matcher:
     dependency: transitive
     description:
