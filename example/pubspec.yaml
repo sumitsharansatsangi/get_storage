@@ -28,6 +28,7 @@ dependencies:
   path_provider:
     git: https://github.com/kumsumit/path_provider.git 
   get:
+    git: https://github.com/kumsumit/get.git
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.

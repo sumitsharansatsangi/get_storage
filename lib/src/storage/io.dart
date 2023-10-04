@@ -20,9 +20,10 @@ class StorageImpl {
   RandomAccessFile? _randomAccessfile;
 
   void clear() async {
-    subject
-      ..value.clear()
-      ..changeValue("", null);
+    if (subject.value != null)
+      subject
+        ..value!.clear()
+        ..changeValue("", null);
   }
 
   Future<void> deleteBox() async {
@@ -53,11 +54,26 @@ class StorageImpl {
     );
   }
 
-  T? read<T>(String key) =>  subject.value[key] as T?;
-  
-  T? getKeys<T>() => subject.value.keys as T?;
-  
-  T? getValues<T>() =>  subject.value.values as T;
+  T? read<T>(String key) {
+    if (subject.value != null)
+      return subject.value![key] as T?;
+    else
+      return null;
+  }
+
+  T? getKeys<T>() {
+    if (subject.value != null)
+      return subject.value!.keys as T?;
+    else
+      return null;
+  }
+
+  T? getValues<T>() {
+    if (subject.value != null)
+      return subject.value!.values as T;
+    else
+      return null;
+  }
 
   Future<void> init([Map<String, dynamic>? initialData]) async {
     subject.value = initialData ?? <String, dynamic>{};
@@ -67,15 +83,17 @@ class StorageImpl {
   }
 
   void remove(String key) {
-    subject
-      ..value.remove(key)
-      ..changeValue(key, null);
+    if (subject.value != null)
+      subject
+        ..value!.remove(key)
+        ..changeValue(key, null);
   }
 
   void write(String key, dynamic value) {
-    subject
-      ..value[key] = value
-      ..changeValue(key, value);
+    if (subject.value != null)
+      subject
+        ..value![key] = value
+        ..changeValue(key, value);
   }
 
   Future<void> _readFile() async {
