@@ -3,7 +3,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'dart:typed_data';
 
-import 'package:get/get.dart';
+import 'package:refreshed/refreshed.dart';
 import 'package:path_provider/path_provider.dart';
 
 import '../value.dart';
@@ -20,10 +20,9 @@ class StorageImpl {
   RandomAccessFile? _randomAccessfile;
 
   void clear() async {
-    if (subject.value != null)
-      subject
-        ..value!.clear()
-        ..changeValue("", null);
+    subject
+      ..value.clear()
+      ..changeValue("", null);
   }
 
   Future<void> deleteBox() async {
@@ -55,24 +54,15 @@ class StorageImpl {
   }
 
   T? read<T>(String key) {
-    if (subject.value != null)
-      return subject.value![key] as T?;
-    else
-      return null;
+    return subject.value[key] as T?;
   }
 
   T? getKeys<T>() {
-    if (subject.value != null)
-      return subject.value!.keys as T?;
-    else
-      return null;
+    return subject.value.keys as T?;
   }
 
   T? getValues<T>() {
-    if (subject.value != null)
-      return subject.value!.values as T;
-    else
-      return null;
+    return subject.value.values as T;
   }
 
   Future<void> init([Map<String, dynamic>? initialData]) async {
@@ -83,17 +73,15 @@ class StorageImpl {
   }
 
   void remove(String key) {
-    if (subject.value != null)
-      subject
-        ..value!.remove(key)
-        ..changeValue(key, null);
+    subject
+      ..value.remove(key)
+      ..changeValue(key, null);
   }
 
   void write(String key, dynamic value) {
-    if (subject.value != null)
-      subject
-        ..value![key] = value
-        ..changeValue(key, value);
+    subject
+      ..value[key] = value
+      ..changeValue(key, value);
   }
 
   Future<void> _readFile() async {

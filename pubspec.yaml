@@ -10,8 +10,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  get: 
-    git: https://github.com/kumsumit/get.git
+  refreshed: ^2.9.0
   path_provider:
     git: https://github.com/kumsumit/path_provider.git
   #platform_info: ^3.0.0-nullsafety.1
